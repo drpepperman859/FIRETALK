@@ -18,6 +18,8 @@ export class AppHome extends LitElement {
   @state() remoteAudioStatus = 'No audio track';
   @state() callError = '';
   @state() callRoom = '';
+  @state() colorTheme: 'pink' | 'blue' | 'orange' | 'red' = 'orange';
+  @state() showSettings = false;
   @state() messagingStatus: 'local' | 'connecting' | 'connected' | 'error' = firebaseMessagingEnabled ? 'connecting' : 'local';
   private room?: Room;
   private localAudioTrack?: LocalAudioTrack;
@@ -119,6 +121,11 @@ export class AppHome extends LitElement {
     this.sendMessage();
   }
 
+  private setColorTheme(theme: 'pink' | 'blue' | 'orange' | 'red') {
+    this.colorTheme = theme;
+    this.showSettings = false;
+  }
+
   private async startCall() {
     this.callError = '';
     this.callState = 'requesting';
@@ -196,7 +203,7 @@ export class AppHome extends LitElement {
   render() {
     const conversations = ['Maya Chen', 'Design circle', 'Alex Morgan', 'Weekend plans'];
     return html`
-      <div class="app-shell">
+      <div class="app-shell theme-${this.colorTheme}">
         <aside class="sidebar">
           <div class="brand"><span class="brand-mark">✦</span><span>FIRETALK</span></div>
           <button class="new-chat" @click="${() => this.sendMessage('New conversation started')}"><span>＋</span> New chat <kbd>⌘ K</kbd></button>
@@ -208,7 +215,7 @@ export class AppHome extends LitElement {
                 <span class="avatar avatar-${index + 1}">${name.split(' ').map((part) => part[0]).join('')}</span><span class="conversation-copy"><strong>${name}</strong><small>${index === 0 ? 'That is the bit I was happiest...' : 'You: Sounds good to me'}</small></span><time>${index === 0 ? '9:44' : 'Mon'}</time>
               </button>`)}
           </nav>
-          <div class="sidebar-bottom"><button class="side-link"><span>◎</span> Archive</button><button class="side-link"><span>⚙</span> Settings</button><div class="profile"><span class="avatar avatar-you">JD</span><span><strong>Jordan Davis</strong><small>Available</small></span><span class="more">•••</span></div></div>
+          <div class="sidebar-bottom"><button class="side-link"><span>◎</span> Archive</button><button class="side-link" @click="${() => this.showSettings = !this.showSettings}"><span>⚙</span> Settings</button>${this.showSettings ? html`<div class="theme-picker" aria-label="Color theme"><strong>Color name</strong><div class="theme-options">${(['pink', 'blue', 'orange', 'red'] as const).map((theme) => html`<button class="theme-option theme-option-${theme} ${this.colorTheme === theme ? 'selected' : ''}" @click="${() => this.setColorTheme(theme)}"><span></span>${theme[0].toUpperCase() + theme.slice(1)}</button>`)}</div></div>` : nothing}<div class="profile"><span class="avatar avatar-you">JD</span><span><strong>Jordan Davis</strong><small>Available</small></span><span class="more">•••</span></div></div>
         </aside>
         <main class="chat-panel">
           <header class="chat-header"><div class="person"><span class="avatar avatar-1">MC</span><div><h1>${this.activeConversation}</h1><span class="online"><i class="${this.messagingStatus === 'connected' ? 'firebase-online' : ''}"></i> ${this.messagingStatus === 'connected' ? 'Live sync' : this.messagingStatus === 'connecting' ? 'Connecting...' : this.messagingStatus === 'error' ? 'Offline mode' : 'Local mode'}</span></div></div><div class="header-actions"><button aria-label="Start voice call" @click="${this.startCall}">☎</button><button aria-label="More conversation options">•••</button></div></header>

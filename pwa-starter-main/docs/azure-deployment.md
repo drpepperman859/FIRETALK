@@ -1,6 +1,6 @@
 # Azure Static Web Apps deployment
 
-Azure Static Web Apps is the production target for the complete Mingle experience because it deploys the Vite frontend and the `/api/livekit-token` Azure Function together.
+Azure Static Web Apps is the production target for the complete FIRETALK experience because it deploys the Vite frontend and the `/api/livekit-token` Azure Function together.
 
 ## 1. Create the resource
 

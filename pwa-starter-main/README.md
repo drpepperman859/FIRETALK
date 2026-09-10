@@ -1,6 +1,6 @@
-# Mingle
+# FIRETALK
 
-Mingle is a lightweight installable chat workspace with Firebase Realtime Database messaging, IndexedDB offline persistence, and optional LiveKit voice calls.
+FIRETALK is a lightweight installable chat workspace with Firebase Realtime Database messaging, IndexedDB offline persistence, and optional LiveKit voice calls.
 
 ## Local development
 

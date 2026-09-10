@@ -1,0 +1,14 @@
+{
+  "name": "FIRETALK",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix pwa-starter-main run dev",
+    "build": "npm --prefix pwa-starter-main run build",
+    "preview": "npm --prefix pwa-starter-main run preview",
+    "start": "npm --prefix pwa-starter-main run start",
+    "deploy": "npm --prefix pwa-starter-main run deploy"
+  },
+  "dependencies": {
+    "firebase": "^12.19.0"
+  }
+}

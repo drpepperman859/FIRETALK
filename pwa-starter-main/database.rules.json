@@ -1,0 +1,16 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "conversations": {
+      "$conversationId": {
+        "messages": {
+          ".indexOn": ["createdAt"],
+          "$messageId": {
+            ".validate": "newData.hasChildren(['author', 'text', 'senderId', 'createdAt']) && newData.child('text').isString() && newData.child('text').val().length <= 4000 && newData.child('senderId').val() == auth.uid"
+          }
+        }
+      }
+    }
+  }
+}

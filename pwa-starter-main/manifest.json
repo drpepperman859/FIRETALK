@@ -2,11 +2,11 @@
   "id": "./",
   "dir": "ltr",
   "lang": "en",
-  "name": "Mingle - Simple conversations",
+  "name": "FIRETALK - Simple conversations",
   "scope": "./",
   "display": "standalone",
   "start_url": "./",
-  "short_name": "Mingle",
+  "short_name": "FIRETALK",
   "theme_color": "#1f5048",
   "description": "A calm, focused space for conversations and live voice calls.",
   "orientation": "any",
@@ -69,7 +69,7 @@
     {
       "name": "Start a new chat",
       "short_name": "New chat",
-      "description": "Open a fresh Mingle conversation",
+      "description": "Open a fresh FIRETALK conversation",
       "url": "./?newChat",
       "icons": [
         {

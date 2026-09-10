@@ -198,7 +198,7 @@ export class AppHome extends LitElement {
     return html`
       <div class="app-shell">
         <aside class="sidebar">
-          <div class="brand"><span class="brand-mark">✦</span><span>mingle</span></div>
+          <div class="brand"><span class="brand-mark">✦</span><span>FIRETALK</span></div>
           <button class="new-chat" @click="${() => this.sendMessage('New conversation started')}"><span>＋</span> New chat <kbd>⌘ K</kbd></button>
           <label class="search"><span>⌕</span><input aria-label="Search conversations" placeholder="Search" .value="${this.searchTerm}" @input="${(event: Event) => this.searchTerm = (event.target as HTMLInputElement).value}"/><kbd>⌘ F</kbd></label>
           <p class="section-label">Conversations</p>

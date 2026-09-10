@@ -5,7 +5,7 @@ import { resolveRouterPath } from '../router';
 import '@awesome.me/webawesome/dist/components/button/button.js';
 @customElement('app-header')
 export class AppHeader extends LitElement {
-  @property({ type: String }) title = 'PWA Starter';
+  @property({ type: String }) title = 'FIRETALK';
 
   @property({ type: Boolean}) enableBack: boolean = false;
 

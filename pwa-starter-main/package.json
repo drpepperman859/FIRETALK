@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@awesome.me/webawesome": "^3.10.0",
+    "firebase": "^12.19.0",
     "lit": "^3.3.3",
     "livekit-client": "^2.22.3",
     "livekit-server-sdk": "^2.19.0",

@@ -20,6 +20,7 @@ export class AppHome extends LitElement {
   @state() callRoom = '';
   @state() colorTheme: 'pink' | 'blue' | 'orange' | 'red' = 'orange';
   @state() showSettings = false;
+  @state() showEmojiPicker = false;
   @state() messagingStatus: 'local' | 'connecting' | 'connected' | 'error' = firebaseMessagingEnabled ? 'connecting' : 'local';
   private room?: Room;
   private localAudioTrack?: LocalAudioTrack;
@@ -126,6 +127,11 @@ export class AppHome extends LitElement {
     this.showSettings = false;
   }
 
+  private addEmoji(emoji: string) {
+    this.draft += emoji;
+    this.showEmojiPicker = false;
+  }
+
   private async startCall() {
     this.callError = '';
     this.callState = 'requesting';
@@ -221,7 +227,7 @@ export class AppHome extends LitElement {
           <header class="chat-header"><div class="person"><span class="avatar avatar-1">MC</span><div><h1>${this.activeConversation}</h1><span class="online"><i class="${this.messagingStatus === 'connected' ? 'firebase-online' : ''}"></i> ${this.messagingStatus === 'connected' ? 'Live sync' : this.messagingStatus === 'connecting' ? 'Connecting...' : this.messagingStatus === 'error' ? 'Offline mode' : 'Local mode'}</span></div></div><div class="header-actions"><button aria-label="Start voice call" @click="${this.startCall}">☎</button><button aria-label="More conversation options">•••</button></div></header>
           ${this.callState !== 'idle' ? html`<section class="call-panel" aria-live="polite"><div class="call-title"><span class="call-pulse"></span><div><strong>${this.callState === 'connected' ? 'Live voice call' : this.callState === 'error' ? 'Call could not start' : 'Starting voice call'}</strong><small>${this.callRoom ? `Room ${this.callRoom}` : 'Secure audio room'}</small></div><button class="close-call" aria-label="End call" @click="${this.endCall}">×</button></div><div class="call-status-grid"><div class="call-status"><span class="status-dot ${this.micStatus === 'granted' ? 'good' : this.micStatus === 'muted' ? 'muted' : 'warn'}"></span><div><small>Your microphone</small><strong>${this.micStatus === 'requesting' ? 'Requesting permission...' : this.micStatus === 'denied' ? 'Permission denied' : this.micStatus === 'muted' ? 'Muted' : 'Granted and published'}</strong></div></div><div class="call-status"><span class="status-dot ${this.remoteStatus === 'Connected' ? 'good' : 'warn'}"></span><div><small>Remote participant</small><strong>${this.remoteStatus}</strong><em>${this.remoteAudioStatus}</em></div></div></div>${this.callError ? html`<p class="call-error">${this.callError}</p>` : nothing}<div class="call-actions">${this.callState === 'connected' ? html`<button class="mute-button ${this.micStatus === 'muted' ? 'is-muted' : ''}" @click="${this.toggleMute}">${this.micStatus === 'muted' ? 'Unmute microphone' : 'Mute microphone'}</button>` : nothing}<button class="end-button" @click="${this.endCall}">End call</button></div></section>` : nothing}
           <section class="messages" aria-live="polite"><div class="day-divider"><span>Today</span></div>${this.messages.map((message) => html`<article class="message ${message.own ? 'own' : ''}"><span class="avatar avatar-${message.own ? 'you' : '1'}">${message.own ? 'JD' : 'MC'}</span><div class="message-body"><div class="message-meta"><strong>${message.author}</strong><time>${message.time}</time></div><p>${message.text}</p></div></article>`)}</section>
-          <div class="composer-wrap"><div class="quick-replies"><button @click="${() => this.sendMessage('Sounds good to me')}">Sounds good to me</button><button @click="${() => this.sendMessage('I will take a look')}">I will take a look</button></div><form class="composer" @submit="${this.handleSubmit}"><button type="button" class="icon-button" aria-label="Attach a file">＋</button><input aria-label="Message" placeholder="Write a message..." .value="${this.draft}" @input="${(event: Event) => this.draft = (event.target as HTMLInputElement).value}"/><button type="button" class="icon-button" aria-label="Add emoji">☺</button><button class="send-button" type="submit" aria-label="Send message">↑</button></form><p class="composer-hint">Press <b>Enter</b> to send <span>•</span> <b>Shift + Enter</b> for a new line</p></div>
+          <div class="composer-wrap"><div class="quick-replies"><button @click="${() => this.sendMessage('Sounds good to me')}">Sounds good to me</button><button @click="${() => this.sendMessage('I will take a look')}">I will take a look</button></div><div class="composer-area">${this.showEmojiPicker ? html`<div class="emoji-picker" aria-label="Smileys">${['😀', '🙂', '😊', '😂', '😉', '😍', '🤔', '😎', '🙌', '🔥'].map((emoji) => html`<button type="button" @click="${() => this.addEmoji(emoji)}">${emoji}</button>`)}</div>` : nothing}<form class="composer" @submit="${this.handleSubmit}"><button type="button" class="icon-button" aria-label="Attach a file">＋</button><input aria-label="Message" placeholder="Write a message..." .value="${this.draft}" @input="${(event: Event) => this.draft = (event.target as HTMLInputElement).value}"/><button type="button" class="icon-button" aria-label="Add smiley" @click="${() => this.showEmojiPicker = !this.showEmojiPicker}">☺</button><button class="send-button" type="submit" aria-label="Send message">↑</button></form></div><p class="composer-hint">Press <b>Enter</b> to send <span>•</span> <b>Shift + Enter</b> for a new line</p></div>
         </main>
       </div>
     `;
